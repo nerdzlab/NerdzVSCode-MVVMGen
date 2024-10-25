@@ -1,0 +1,1 @@
+export const validProjectNamePattern = /^[a-z0-9_]+$/;

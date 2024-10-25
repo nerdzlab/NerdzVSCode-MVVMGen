@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="s600">#8ACAA1</color>
+    <color name="s500">#ADE6BB</color>
+    <color name="s400">#CFF3D5</color>
+    <color name="s300">#DBF9DD</color>
+    <color name="s200">#E9FDE9</color>
+    <color name="s100">#F5FEF4</color>
+</resources>

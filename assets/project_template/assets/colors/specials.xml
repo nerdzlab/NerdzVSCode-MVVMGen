@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="pink">#F6E8FD</color>
+    <color name="purple">#E1DEF6</color>
+    <color name="blue">#CAE3F2</color>
+    <color name="green">#E1EEEF</color>
+    <color name="background">#F7F6F3</color>
+    <color name="ads_title">#0062F8</color>
+    <color name="ads_link">#1D9533</color>
+    <color name="transparent">#F7F6F3</color>
+    <color name="ads_header">#6B6D6E</color>
+    <color name="ads_border">#E3E3E3</color>
+</resources>

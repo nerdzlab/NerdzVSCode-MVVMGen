@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="p700">#0A0E0F</color>
+    <color name="p500">#141515</color>
+    <color name="p400">#434444</color>
+    <color name="p300">#727373</color>
+    <color name="p200">#A1A1A1</color>
+    <color name="p100">#D0D0D0</color>
+</resources>
