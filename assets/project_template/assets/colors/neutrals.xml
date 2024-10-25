@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="n1000">#0E0E0E</color>
+    <color name="n700">#323233</color>
+    <color name="n500">#565657</color>
+    <color name="n400">#7A7A7C</color>
+    <color name="n300">#9D9DA1</color>
+    <color name="n200">#C1C1C5</color>
+    <color name="n100">#E5E5EA</color>
+    <color name="n50">#F0F0F0</color>
+    <color name="n25">#F7F7F7</color>
+    <color name="n0">#FFFFFF</color>
+</resources>
