@@ -25,7 +25,9 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+    "onLanguage:dart"
+  ],
   "main": "./out/extension.js",
   "icon": "assets/logo.png",
   "contributes": {
@@ -37,6 +39,10 @@
       {
         "command": "mvvm-flutter.new-project",
         "title": "MVVP: New Project"
+      },
+      {
+        "command": "mvvm-flutter.extract-to-arb",
+        "title": "MVVM: Extract to ARB"
       }
     ],
     "menus": {

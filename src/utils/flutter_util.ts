@@ -7,6 +7,9 @@ import * as yaml from 'js-yaml';
 export function checkIfFlutterInstalled(): Promise<void> {
     return runCommand('flutter --version')
 }
+export function generateL10n(directory: string): Promise<void> {
+    return runCommand('flutter gen-l10n', directory)
+}
 export function getFlutterDependencies(directory: string): Promise<void> {
     return runCommand('flutter pub get', directory)
 }
@@ -60,4 +63,41 @@ export function getFlutterProjectName(): string | undefined {
     }
 
     return;
+}
+
+export function getARBFiles(): string[] | undefined {
+    const workspaceFolders = vscode.workspace.workspaceFolders;
+
+    if (!workspaceFolders || workspaceFolders.length === 0) {
+        vscode.window.showErrorMessage('No workspace folder is open.');
+        return;
+    }
+
+    // Assuming the pubspec.yaml is in the root of the workspace
+    const yamlPath = path.join(workspaceFolders[0].uri.fsPath, 'l10n.yaml');
+
+    if (!fs.existsSync(yamlPath)) {
+        vscode.window.showErrorMessage("l10n.yaml file not found in the workspace.");
+        return;
+    }
+
+    const yamlContent = yaml.load(fs.readFileSync(yamlPath, 'utf-8')) as { 'arb-dir': string };
+    const arbDirectory = yamlContent?.['arb-dir'] ? path.join(workspaceFolders[0].uri.fsPath, yamlContent['arb-dir']) : null;
+
+    if (!arbDirectory || !fs.existsSync(arbDirectory)) {
+        vscode.window.showErrorMessage("ARB directory specified in l10n.yaml does not exist.");
+        return;
+    }
+
+    // Find .arb files in the ARB directory
+    const arbFiles = fs.readdirSync(arbDirectory)
+        .filter(file => file.endsWith('.arb'))
+        .map(file => path.join(arbDirectory, file));
+
+    if (arbFiles.length === 0) {
+        vscode.window.showErrorMessage("No ARB files found in the specified directory.");
+        return;
+    }
+
+    return arbFiles;
 }
