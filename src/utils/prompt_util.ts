@@ -1,10 +1,11 @@
 import * as _ from "lodash";
 import { window } from "vscode";
 
-export function promptForName(prompt: string, placeHolder: string): Thenable<string | undefined> {
+export function promptForName(prompt: string, placeHolder: string, value?: string): Thenable<string | undefined> {
     const inputOptions = {
         prompt: prompt,
-        placeHolder: placeHolder
+        placeHolder: placeHolder,
+        value: value || ''
     };
 
     return window.showInputBox(inputOptions);
