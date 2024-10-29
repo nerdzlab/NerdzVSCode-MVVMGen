@@ -2,7 +2,7 @@
   "name": "mvvm-flutter",
   "displayName": "mvvm-flutter",
   "description": "Simplifies the creation of MVVM architecture files in Flutter projects",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/nerdzlab/NerdzVSCode-MVVMGen"

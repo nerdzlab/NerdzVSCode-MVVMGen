@@ -7,30 +7,12 @@ import * as yaml from 'js-yaml';
 
 export const extractToARB = async (document: TextDocument, range: Range, selectedText: string) => {
     //
-    //  Get text value
+    //  Get text value from editor or propagated to function
     //
     if (!selectedText) {
-        const editor = window.activeTextEditor;
-        if (!editor) {
-            window.showErrorMessage('No active editor found.');
-            return;
-        }
-
-        const selection = editor.selection;
-        const selectedTextFromEditor = editor.document.getText(selection);
-
-        if (!selectedTextFromEditor || selectedTextFromEditor === '""' || selectedTextFromEditor === "''") {
-            window.showErrorMessage('No valid text selected for extraction. Please select text that is not empty and not just quotes.');
-            return;
-        }
-
-        if ((selectedTextFromEditor.startsWith('"') && selectedTextFromEditor.endsWith('"'))
-            || (selectedTextFromEditor.startsWith("'") && selectedTextFromEditor.endsWith("'"))) {
-            selectedText = editor.document.getText(selection);
-        } else {
-            window.showErrorMessage("Can't extract. Please select a string enclosed in either single (' ') or double (' \" ') quotes.");
-            return;
-        }
+        const textFromEditor = getSelectedTextFromEditor();
+        if (!textFromEditor) return;
+        selectedText = textFromEditor;
     }
     else if (selectedText === '""' || selectedText === "''") {
         window.showErrorMessage('No valid text selected for extraction. Please select text that is not empty and not just quotes.');
@@ -43,7 +25,7 @@ export const extractToARB = async (document: TextDocument, range: Range, selecte
     const formattedText = selectedText.replace(/^['"]|['"]$/g, '');
 
     const changeCase = await import("change-case");
-    const camelCaseText = changeCase.camelCase(formattedText);
+    const camelCaseText = changeCase.camelCase(formattedText).replaceAll('_', '');
 
     const arbKey = await promptForName("Enter ARB key", 'ARB key', camelCaseText);
     if (_.isNil(arbKey) || arbKey.trim() === "") {
@@ -57,9 +39,17 @@ export const extractToARB = async (document: TextDocument, range: Range, selecte
     }
 
     //
-    //  Find .arb files in the ARB directory
+    //  Find .arb files in the ARB directory, assuming that it's flutter project
     //
-    const arbFiles = getARBFiles();
+    const workspaceFolders = workspace.workspaceFolders;
+
+    if (!workspaceFolders || workspaceFolders.length === 0) {
+        window.showErrorMessage('No workspace folder is open.');
+        return;
+    }
+
+    const workspaceFolder = workspaceFolders[0].uri.fsPath;
+    const arbFiles = getARBFiles(workspaceFolder);
 
     if (!arbFiles || arbFiles.length === 0) {
         window.showErrorMessage("No ARB files found in the specified directory.");
@@ -73,7 +63,7 @@ export const extractToARB = async (document: TextDocument, range: Range, selecte
     if (!addingRes) return;
 
     //
-    //  Update selected files
+    //  Update selected range of text
     //
     const editor = window.activeTextEditor;
     if (editor) {
@@ -82,19 +72,17 @@ export const extractToARB = async (document: TextDocument, range: Range, selecte
         });
     }
 
+    //
+    //  Run generate command gen-l10n
+    //
     try {
-        const workspaceFolders = workspace.workspaceFolders;
-
-        if (!workspaceFolders || workspaceFolders.length === 0) {
-            window.showErrorMessage('No workspace folder is open.');
-            return;
-        }
-        generateL10n(workspaceFolders[0].uri.fsPath);
+        generateL10n(workspaceFolder);
     } catch (error) {
         window.showErrorMessage(
             `Error:
                 ${error instanceof Error ? error.message : JSON.stringify(error)}`
         );
+        return;
     }
 
     window.showInformationMessage(`Added "${arbKey}" to ARB.`);
@@ -103,31 +91,51 @@ export const extractToARB = async (document: TextDocument, range: Range, selecte
 
 async function addValueToARBFiles(arbFiles: string[], arbKey: string, formattedText: string): Promise<boolean> {
     const newEntry = `"${arbKey}": "${formattedText}"`;
-    for (const arbFile of arbFiles) {
-        const fileContent = fs.readFileSync(arbFile, 'utf-8');
+    try {
+        for (const arbFile of arbFiles) {
+            const fileContent = fs.readFileSync(arbFile, 'utf-8');
 
-        let jsonData;
-        try {
+            let jsonData;
             jsonData = JSON.parse(fileContent);
-        } catch (error) {
-            window.showErrorMessage(`Failed to parse ${arbFile} as JSON.`)
-            return false;
+
+            if (jsonData.hasOwnProperty(arbKey)) {
+                window.showErrorMessage(`The key "${arbKey}" already exists in ${arbFile}.`);
+                return false;
+            }
+
+            jsonData[arbKey] = formattedText;
+            const updatedContent = JSON.stringify(jsonData, null, 2);
+
+            fs.writeFileSync(arbFile, updatedContent, 'utf-8');
         }
-
-        if (jsonData.hasOwnProperty(arbKey)) {
-            window.showErrorMessage(`The key "${arbKey}" already exists in ${arbFile}.`);
-            return false;
-        }
-
-        // Add new key-value pair to JSON data
-        jsonData[arbKey] = formattedText;
-
-        // Convert JSON back to string and format with commas as needed
-        const updatedContent = JSON.stringify(jsonData, null, 2);
-
-        fs.writeFileSync(arbFile, updatedContent, 'utf-8');
-
+    } catch (error) {
+        window.showErrorMessage(`Failed to add value to ARB.\nError: ${error}`)
+        return false;
     }
 
     return true
 };
+
+function getSelectedTextFromEditor(): string | undefined {
+    const editor = window.activeTextEditor;
+    if (!editor) {
+        window.showErrorMessage('No active editor found.');
+        return;
+    }
+
+    const selection = editor.selection;
+    const selectedTextFromEditor = editor.document.getText(selection);
+
+    if (!selectedTextFromEditor || selectedTextFromEditor === '""' || selectedTextFromEditor === "''") {
+        window.showErrorMessage('No valid text selected for extraction. Please select text that is not empty and not just quotes.');
+        return;
+    }
+
+    if ((selectedTextFromEditor.startsWith('"') && selectedTextFromEditor.endsWith('"'))
+        || (selectedTextFromEditor.startsWith("'") && selectedTextFromEditor.endsWith("'"))) {
+        return editor.document.getText(selection);
+    } else {
+        window.showErrorMessage("Can't extract. Please select a string enclosed in either single (' ') or double (' \" ') quotes.");
+        return;
+    }
+}
