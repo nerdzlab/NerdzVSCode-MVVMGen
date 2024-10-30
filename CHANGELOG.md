@@ -4,6 +4,12 @@ All notable changes to the "mvvm-flutter" extension will be documented in this f
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [v1.1.1]
+
+### Changed
+
+- ViewModel RouteType file generation template
+
 ## [v1.1.0]
 
 ### Added
