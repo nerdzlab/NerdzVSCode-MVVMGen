@@ -111,7 +111,7 @@ async function generateViewModel(
     await Promise.all([
         createViewModelTemplate(viewModelName, targetDirectory),
         createViewModelTypeTemplate(viewModelName, targetDirectory, projectName),
-        createViewModelRouteTypeTemplate(viewModelName, targetDirectory, projectName),
+        createViewModelRouteTypeTemplate(viewModelName, targetDirectory),
         createViewModelScreenTemplate(viewModelName, targetDirectory, projectName, isStatelessWidgetType)
     ]);
 }
@@ -176,7 +176,6 @@ async function createViewModelTypeTemplate(
 async function createViewModelRouteTypeTemplate(
     viewModelName: string,
     targetDirectory: string,
-    projectName: string
 ) {
     const changeCase = await import("change-case");
     const snakeCaseViewModelName = changeCase.snakeCase(viewModelName);
@@ -189,7 +188,7 @@ async function createViewModelRouteTypeTemplate(
     return new Promise<void>(async (resolve, reject) => {
         writeFile(
             targetPath,
-            getDefaultViewModelRouteType(pascalCaseVieModelName, projectName),
+            getDefaultViewModelRouteType(pascalCaseVieModelName),
             'utf8',
             (error) => {
                 if (error) {
