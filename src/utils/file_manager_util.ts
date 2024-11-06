@@ -26,7 +26,7 @@ export function replaceInDirectory(dirPath: string, searchValue: string, replace
         if (fs.lstatSync(filePath).isDirectory()) {
             // Recursively handle subdirectories
             replaceInDirectory(filePath, searchValue, replaceValue);
-        } else if (filePath.endsWith('.dart') || filePath.endsWith('.yaml')) {
+        } else if (filePath.endsWith('.dart') || filePath.endsWith('.yaml') || filePath.endsWith('.gradle')) {
             // Only replace in .dart files
             const fileContent = fs.readFileSync(filePath, 'utf8');
             const updatedContent = fileContent.split(searchValue).join(replaceValue);
