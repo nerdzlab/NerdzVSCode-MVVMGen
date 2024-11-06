@@ -10,7 +10,10 @@ import {
     getFlutterDependencies,
     promptForName,
     promptForTargetDirectory,
-    replaceInDirectory,
+    removeIOsDefaultRunner,
+    replaceIdentifierForPbxproj,
+    replaceInDirectoryIdentifier,
+    replaceInDirectoryIosProjectFile,
     validProjectNamePattern
 } from "../utils";
 
@@ -39,7 +42,15 @@ export const newProject = async (extensionPath: string) => {
         const templateDir = path.join(extensionPath, 'assets', 'project_template');
         const projectDirectory = path.join(targetDirectory, viewModelProjectName)
         copyFiles(templateDir, projectDirectory)
-        replaceInDirectory(projectDirectory, 'VIEW_MODEL_PROJECT_IDENTIFIER_QW32', viewModelProjectName);
+
+        replaceInDirectoryIosProjectFile(projectDirectory, extensionPath)
+        removeIOsDefaultRunner(projectDirectory)
+
+        const changeCase = await import("change-case");
+        const camelCaseText = changeCase.camelCase(viewModelProjectName).replaceAll('_', '');
+        replaceIdentifierForPbxproj(projectDirectory, 'VIEW_MODEL_PROJECT_IDENTIFIER_QW32', camelCaseText)
+        
+        replaceInDirectoryIdentifier(projectDirectory, 'VIEW_MODEL_PROJECT_IDENTIFIER_QW32', viewModelProjectName)
 
         const uri = Uri.file(projectDirectory);
         await commands.executeCommand('vscode.openFolder', uri, true);
