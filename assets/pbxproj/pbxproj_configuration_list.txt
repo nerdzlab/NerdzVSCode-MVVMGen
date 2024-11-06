@@ -1,0 +1,39 @@
+		331C8087294A63A400263BE5 /* Build configuration list for PBXNativeTarget "RunnerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				331C8088294A63A400263BE5 /* Debug */,
+				054EF6EA2CDB8C69000528AC /* DebugDev */,
+				331C8089294A63A400263BE5 /* Release */,
+				054EF6EE2CDB8FCE000528AC /* ReleaseDev */,
+				331C808A294A63A400263BE5 /* Profile */,
+				054EF6F12CDB8FD5000528AC /* ProfileDev */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		97C146E91CF9000F007C117D /* Build configuration list for PBXProject "Runner" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				97C147031CF9000F007C117D /* Debug */,
+				054EF6E82CDB8C69000528AC /* DebugDev */,
+				97C147041CF9000F007C117D /* Release */,
+				054EF6EC2CDB8FCE000528AC /* ReleaseDev */,
+				249021D3217E4FDB00AE95B9 /* Profile */,
+				054EF6EF2CDB8FD5000528AC /* ProfileDev */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		97C147051CF9000F007C117D /* Build configuration list for PBXNativeTarget "Runner" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				97C147061CF9000F007C117D /* Debug */,
+				054EF6E92CDB8C69000528AC /* DebugDev */,
+				97C147071CF9000F007C117D /* Release */,
+				054EF6ED2CDB8FCE000528AC /* ReleaseDev */,
+				249021D4217E4FDB00AE95B9 /* Profile */,
+				054EF6F02CDB8FD5000528AC /* ProfileDev */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
