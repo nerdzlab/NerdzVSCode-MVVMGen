@@ -4,6 +4,6 @@ part 'prod_env.g.dart';
 
 @Envied(path: '.prod.env')
 abstract class ProdEnv {
-  @EnviedField(varName: 'API')
-  static const String api = _ProdEnv.api;
+  @EnviedField(varName: 'API_URL')
+  static const String apiUrl = _ProdEnv.apiUrl;
 }
