@@ -9,5 +9,5 @@ part of 'dev_env.dart';
 // coverage:ignore-file
 // ignore_for_file: type=lint
 final class _DevEnv {
-  static const String api = 'https://apidev.com';
+  static const String apiUrl = 'https://apidev.com';
 }

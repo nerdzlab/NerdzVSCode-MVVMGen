@@ -9,5 +9,5 @@ part of 'prod_env.dart';
 // coverage:ignore-file
 // ignore_for_file: type=lint
 final class _ProdEnv {
-  static const String api = 'https://apiprod.com';
+  static const String apiUrl = 'https://apiprod.com';
 }
