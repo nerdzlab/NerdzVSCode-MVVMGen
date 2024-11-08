@@ -48,6 +48,16 @@ export function replaceIdentifierForPbxproj(dirPath: string, searchValue: string
     fs.writeFileSync(pbxprojPath, updatedContent, 'utf8');
 }
 
+export function updateGitignoreFile(dirPath: string) {
+    const pbxprojPath = path.join(dirPath, '.gitignore');
+
+    const fileContent = fs.readFileSync(pbxprojPath, 'utf8');
+    const updatedContent = fileContent + "\n# Env\n*.env\n*_env.g.dart";
+
+    // Write the updated content back to the file
+    fs.writeFileSync(pbxprojPath, updatedContent, 'utf8');
+}
+
 // Utility function to escape special characters in regex pattern
 function escapeRegExp(string: string) {
     return string.replace(/[.*+?^=!:${}()|\[\]\/\\]/g, '\\$&'); // Escape all special characters

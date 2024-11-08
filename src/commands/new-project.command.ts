@@ -14,6 +14,7 @@ import {
     replaceIdentifierForPbxproj,
     replaceInDirectoryIdentifier,
     replaceInDirectoryIosProjectFile,
+    updateGitignoreFile,
     validProjectNamePattern
 } from "../utils";
 
@@ -51,6 +52,7 @@ export const newProject = async (extensionPath: string) => {
         replaceIdentifierForPbxproj(projectDirectory, 'VIEW_MODEL_PROJECT_IDENTIFIER_QW32', camelCaseText)
         
         replaceInDirectoryIdentifier(projectDirectory, 'VIEW_MODEL_PROJECT_IDENTIFIER_QW32', viewModelProjectName)
+        updateGitignoreFile(projectDirectory)
 
         const uri = Uri.file(projectDirectory);
         await commands.executeCommand('vscode.openFolder', uri, true);
