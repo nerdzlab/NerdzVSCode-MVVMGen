@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:VIEW_MODEL_PROJECT_IDENTIFIER_QW32/business_layer/services/navigator_observer.dart';
 import 'package:shake_detector/shake_detector.dart';
 
 import '../../../business_layer/services/navigation_service.dart';
@@ -19,6 +20,9 @@ final class RootCoordinator extends CoordinatorType {
   late StreamSubscription<Map> branchIoStreamSubscription;
 
   GlobalKey<NavigatorState> get navigatorKey => _navigationService.rootNavKey;
+
+  MainNavigatorObserver get mainNavigatorObserver =>
+      _navigationService.mainNavigatorObserver;
 
   @override
   Future<void> start() async {

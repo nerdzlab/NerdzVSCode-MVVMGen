@@ -16,6 +16,7 @@ Future<void> initializeMainApp() async {
     App(
       initialRoute: RootRouteType.launch,
       navigatorKey: rootCoordinator.navigatorKey,
+      mainNavigatorObserver: rootCoordinator.mainNavigatorObserver,
     ),
   );
 }
