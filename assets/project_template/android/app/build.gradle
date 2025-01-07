@@ -32,7 +32,7 @@ android {
 
     flavorDimensions "app"
     productFlavors {
-        production {
+        prod {
             dimension "app"
             versionCode flutter.versionCode.toInteger()
             versionName flutter.versionName
