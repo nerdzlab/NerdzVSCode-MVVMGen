@@ -4,6 +4,12 @@ All notable changes to the "mvvm-flutter" extension will be documented in this f
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [v1.2.4]
+
+### Changed
+
+- Android flavor name, from production to prod.
+
 ## [v1.2.3]
 
 ### Added
